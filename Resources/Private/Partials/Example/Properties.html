@@ -1,0 +1,29 @@
+
+<table class="tx-upload-example" >
+	<tr>
+		<td>
+			<f:translate key="tx_uploadexample_domain_model_example.title" />
+		</td>
+		<td>
+			{example.title}
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<f:translate key="tx_uploadexample_domain_model_example.image" />
+		</td>
+		<td>
+			<f:if condition="{example.image}"><f:image image="{example.image}" alt="" width="200"/></f:if>
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<f:translate key="tx_uploadexample_domain_model_example.image_collection" />
+		</td>
+		<td>
+			<f:for each="{example.imageCollection}" as="image">
+				<f:image image="{image}" alt="" width="200"/>
+			</f:for>
+		</td>
+	</tr>
+</table>

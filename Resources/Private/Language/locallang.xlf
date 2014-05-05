@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+	<file source-language="en" datatype="plaintext" original="messages" date="2014-02-19T23:36:47Z" product-name="upload_example">
+		<header/>
+		<body>
+
+			<trans-unit id="tx_uploadexample_domain_model_example">
+				<source>Example Objekt</source>
+			</trans-unit>
+			<trans-unit id="tx_uploadexample_domain_model_example.title">
+				<source>Title</source>
+			</trans-unit>
+			<trans-unit id="tx_uploadexample_domain_model_example.image">
+				<source>Image</source>
+			</trans-unit>
+			
+			<trans-unit id="tx_uploadexample_domain_model_example.image_collection">
+				<source>Image Collection</source>
+			</trans-unit>
+
+			<trans-unit id="tx_uploadexample_domain_model_news">
+				<source>News</source>
+			</trans-unit>
+			<trans-unit id="tx_uploadexample_domain_model_news.additional_field">
+				<source>Additional Field</source>
+			</trans-unit>
+			
+		</body>
+	</file>
+</xliff>

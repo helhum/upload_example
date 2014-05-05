@@ -1,0 +1,23 @@
+{namespace h=Helhum\UploadExample\ViewHelpers}
+<label for="title">
+	<f:translate key="tx_uploadexample_domain_model_example.title" /> <span class="required">(required)</span>
+</label><br />
+	<f:form.textfield property="title" /><br />
+<label for="image">
+	<f:translate key="tx_uploadexample_domain_model_example.image" />
+</label><br />
+
+	<h:form.upload property="image" >
+		<f:if condition="{resource}">
+			<f:image image="{resource}" alt="" width="50"/>
+		</f:if>
+	</h:form.upload><br />
+<label for="image_collection">
+	<f:translate key="tx_uploadexample_domain_model_example.image_collection" />
+</label><br />
+	<h:form.upload property="imageCollection.0">
+		<f:if condition="{resource}">
+			<f:image image="{resource}" alt="" width="50"/>
+		</f:if>
+	</h:form.upload>
+	<br />

@@ -1,0 +1,47 @@
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en"
+      xmlns:f="http://schema.helhum.dev/ns/fluid/ViewHelpers">
+
+<f:layout name="Default" />
+
+This Template is responsible for creating a table of domain objects.
+
+If you modify this template, do not forget to change the overwrite settings
+in /Configuration/ExtensionBuilder/settings.yaml:
+  Resources:
+    Private:
+      Templates:
+        List.html: keep
+
+Otherwise your changes will be overwritten the next time you save the extension in the extension builder
+
+<f:section name="main">
+<h1>Listing for Example</h1>
+
+<f:flashMessages />
+
+<table  class="tx_uploadexample" >
+	<tr>
+		<th><f:translate key="tx_uploadexample_domain_model_example.title" /></th>
+		<th> </th>
+		<th> </th>
+		<th> </th>
+	</tr>
+
+	<f:for each="{examples}" as="example">
+		<tr>
+			<td><f:link.action action="show" arguments="{example : example}"> {example.title}</f:link.action></td>
+			<td><f:if condition="{example.image}"><f:image image="{example.image}" alt="" width="50"/></f:if></td>
+			<td>
+				<f:for each="{example.imageCollection}" as="image">
+					<f:image image="{image}" alt="" width="50"/>
+				</f:for>
+			</td>
+			<td><f:link.action action="edit" arguments="{example : example}">Edit</f:link.action></td>
+			<td><f:link.action action="delete" arguments="{example : example}">Delete</f:link.action></td>
+		</tr>
+	</f:for>
+</table>
+
+<f:link.action action="new">New Example</f:link.action>
+</f:section>
+</html>

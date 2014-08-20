@@ -69,7 +69,6 @@ class ExampleController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 	 * @return void
 	 */
 	public function listAction() {
-		
 		$examples = $this->exampleRepository->findAll();
 		$this->view->assign('examples', $examples);
 	}

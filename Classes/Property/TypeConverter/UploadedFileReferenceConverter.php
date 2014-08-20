@@ -105,6 +105,12 @@ class UploadedFileReferenceConverter extends \TYPO3\CMS\Extbase\Property\TypeCon
 	protected $hashService;
 
 	/**
+	 * @var \TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager
+	 * @inject
+	 */
+	protected $persistenceManager;
+
+	/**
 	 * @var \TYPO3\CMS\Core\Resource\FileInterface[]
 	 */
 	protected $convertedResources = array();
@@ -130,7 +136,9 @@ class UploadedFileReferenceConverter extends \TYPO3\CMS\Extbase\Property\TypeCon
 						$fileUid = substr($resourcePointer, 5);
 						return $this->createFileRefrenceFromFalFileObject($this->resourceFactory->getFileObject($fileUid));
 					} else {
-						return $this->createFileReferenceFromFalFileReferenceObject($this->resourceFactory->getFileReferenceObject($resourcePointer));
+						$fileReference = $this->persistenceManager->getObjectByIdentifier($resourcePointer, 'TYPO3\\CMS\\Extbase\\Domain\\Model\\FileReference', FALSE);
+						$fileReference->setOriginalResource($this->resourceFactory->getFileReferenceObject($resourcePointer));
+						return $fileReference;
 					}
 				} catch(\InvalidArgumentException $e) {
 					// Nothing to do, no file uploaded and resource pointer was invalid. Discard!

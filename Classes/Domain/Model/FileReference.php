@@ -42,6 +42,6 @@ class FileReference extends \TYPO3\CMS\Extbase\Domain\Model\FileReference {
 	 */
 	public function setOriginalResource(\TYPO3\CMS\Core\Resource\FileReference $originalResource) {
 		$this->originalResource = $originalResource;
-		$this->uidLocal = $originalResource->getOriginalFile()->getUid();
+		$this->uidLocal = (int)$originalResource->getOriginalFile()->getUid();
 	}
 }

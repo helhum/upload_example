@@ -4,6 +4,9 @@ config.tx_extbase {
 			Helhum\UploadExample\Domain\Model\FileReference {
 				mapping {
 					tableName = sys_file_reference
+					columns {
+						uid_local.mapOnProperty = originalFileIdentifier
+					}
 				}
 			}
 		}

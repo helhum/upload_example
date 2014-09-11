@@ -31,17 +31,17 @@ namespace Helhum\UploadExample\Domain\Model;
 class FileReference extends \TYPO3\CMS\Extbase\Domain\Model\FileReference {
 
 	/**
-	 * We need this property so that the Extbase persistence can properly persist the object
+	 * Uid of a sys_file
 	 *
 	 * @var integer
 	 */
-	protected $uidLocal;
+	protected $originalFileIdentifier;
 
 	/**
 	 * @param \TYPO3\CMS\Core\Resource\FileReference $originalResource
 	 */
 	public function setOriginalResource(\TYPO3\CMS\Core\Resource\FileReference $originalResource) {
 		$this->originalResource = $originalResource;
-		$this->uidLocal = (int)$originalResource->getOriginalFile()->getUid();
+		$this->originalFileIdentifier = (int)$originalResource->getOriginalFile()->getUid();
 	}
 }

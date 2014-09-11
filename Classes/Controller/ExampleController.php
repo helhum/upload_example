@@ -154,7 +154,6 @@ class ExampleController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 		$uploadConfiguration = array(
 			UploadedFileReferenceConverter::CONFIGURATION_ALLOWED_FILE_EXTENSIONS => $GLOBALS['TYPO3_CONF_VARS']['GFX']['imagefile_ext'],
 			UploadedFileReferenceConverter::CONFIGURATION_UPLOAD_FOLDER => '1:/content/',
-			UploadedFileReferenceConverter::CONFIGURATION_REPLACE_RESOURCE => TRUE,
 		);
 		/** @var PropertyMappingConfiguration $newExampleConfiguration */
 		$newExampleConfiguration = $this->arguments[$argumentName]->getPropertyMappingConfiguration();

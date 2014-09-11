@@ -25,10 +25,9 @@ namespace Helhum\UploadExample\Property\TypeConverter;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-use TYPO3\CMS\Core\Database\DatabaseConnection;
 use TYPO3\CMS\Core\Resource\Exception\ExistingTargetFileNameException;
-use TYPO3\CMS\Core\Resource\File;
-use TYPO3\CMS\Core\Resource\FileReference;
+use TYPO3\CMS\Core\Resource\File as FalFile;
+use TYPO3\CMS\Core\Resource\FileReference as FalFileReference;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\PathUtility;
 use TYPO3\CMS\Extbase\Property\Exception\TypeConverterException;
@@ -48,13 +47,6 @@ class UploadedFileReferenceConverter extends \TYPO3\CMS\Extbase\Property\TypeCon
 	 * How to handle a upload when the name of the uploaded file conflicts.
 	 */
 	const CONFIGURATION_UPLOAD_CONFLICT_MODE = 2;
-
-	/**
-	 * Wheter to replace an already present resource.
-	 * Useful "for maxitems = 1" fields / propeties
-	 * with no ObjectStorage annotation.
-	 */
-	const CONFIGURATION_REPLACE_RESOURCE = 3;
 
 	/**
 	 * Wheter to replace an already present resource.
@@ -136,9 +128,7 @@ class UploadedFileReferenceConverter extends \TYPO3\CMS\Extbase\Property\TypeCon
 						$fileUid = substr($resourcePointer, 5);
 						return $this->createFileRefrenceFromFalFileObject($this->resourceFactory->getFileObject($fileUid));
 					} else {
-						$fileReference = $this->persistenceManager->getObjectByIdentifier($resourcePointer, 'TYPO3\\CMS\\Extbase\\Domain\\Model\\FileReference', FALSE);
-						$fileReference->setOriginalResource($this->resourceFactory->getFileReferenceObject($resourcePointer));
-						return $fileReference;
+						return $this->createFileReferenceFromFalFileReferenceObject($this->resourceFactory->getFileReferenceObject($resourcePointer), $resourcePointer);
 					}
 				} catch(\InvalidArgumentException $e) {
 					// Nothing to do, no file uploaded and resource pointer was invalid. Discard!
@@ -197,42 +187,25 @@ class UploadedFileReferenceConverter extends \TYPO3\CMS\Extbase\Property\TypeCon
 
 		$uploadFolderId = $configuration->getConfigurationValue('Helhum\\UploadExample\\Property\\TypeConverter\\UploadedFileReferenceConverter', self::CONFIGURATION_UPLOAD_FOLDER) ?: $this->defaultUploadFolder;
 		$conflictMode = $configuration->getConfigurationValue('Helhum\\UploadExample\\Property\\TypeConverter\\UploadedFileReferenceConverter', self::CONFIGURATION_UPLOAD_CONFLICT_MODE) ?: $this->defaultConflictMode;
-		$replaceResource = (bool)$configuration->getConfigurationValue('Helhum\\UploadExample\\Property\\TypeConverter\\UploadedFileReferenceConverter', self::CONFIGURATION_REPLACE_RESOURCE);
 
 		$uploadFolder = $this->resourceFactory->retrieveFileOrFolderObject($uploadFolderId);
 		$uploadedFile =  $uploadFolder->addUploadedFile($uploadInfo, $conflictMode);
 
-		$fileReferenceModel = $this->createFileRefrenceFromFalFileObject($uploadedFile);
+		$resourcePointer = isset($uploadInfo['submittedFile']['resourcePointer']) && strpos($uploadInfo['submittedFile']['resourcePointer'], 'file:') === FALSE
+				? $this->hashService->validateAndStripHmac($uploadInfo['submittedFile']['resourcePointer'])
+				: NULL;
 
-		if (isset($uploadInfo['submittedFile']['resourcePointer']) && $replaceResource) {
-			$this->removeFileReference($this->hashService->validateAndStripHmac($uploadInfo['submittedFile']['resourcePointer']));
-		}
+		$fileReferenceModel = $this->createFileRefrenceFromFalFileObject($uploadedFile, $resourcePointer);
 
 		return $fileReferenceModel;
 	}
 
 	/**
-	 * Removes a file reference for a given uid.
-	 * No API for that in the core :-O
-	 *
-	 * @param int $referenceId
-	 */
-	protected function removeFileReference($referenceId) {
-		$this->getDatabaseConnection()->exec_DELETEquery('sys_file_reference', 'uid=' . (int)$referenceId);
-	}
-
-	/**
-	 * @return DatabaseConnection
-	 */
-	protected function getDatabaseConnection() {
-		return $GLOBALS['TYPO3_DB'];
-	}
-
-	/**
-	 * @param File $file
+	 * @param FalFile $file
+	 * @param int $resourcePointer
 	 * @return \Helhum\UploadExample\Domain\Model\FileReference
 	 */
-	protected function createFileRefrenceFromFalFileObject(File $file) {
+	protected function createFileRefrenceFromFalFileObject(FalFile $file, $resourcePointer = NULL) {
 		$fileReference = $this->resourceFactory->createFileReferenceObject(
 			array(
 				'uid_local' => $file->getUid(),
@@ -240,18 +213,25 @@ class UploadedFileReferenceConverter extends \TYPO3\CMS\Extbase\Property\TypeCon
 				'uid' => uniqid('NEW_'),
 			)
 		);
-		return $this->createFileReferenceFromFalFileReferenceObject($fileReference);
+		return $this->createFileReferenceFromFalFileReferenceObject($fileReference, $resourcePointer);
 	}
 
 	/**
-	 * @param FileReference $fileReference
+	 * @param FalFileReference $falFileReference
+	 * @param int $resourcePointer
 	 * @return \Helhum\UploadExample\Domain\Model\FileReference
 	 */
-	protected function createFileReferenceFromFalFileReferenceObject(FileReference $fileReference) {
-		/** @var $fileReferenceModel \Helhum\UploadExample\Domain\Model\FileReference */
-		$fileReferenceModel = $this->objectManager->get('TYPO3\\CMS\\Extbase\\Domain\\Model\\FileReference');
-		$fileReferenceModel->setOriginalResource($fileReference);
+	protected function createFileReferenceFromFalFileReferenceObject(FalFileReference $falFileReference, $resourcePointer = NULL) {
+		if ($resourcePointer === NULL) {
+			/** @var $fileReference \Helhum\UploadExample\Domain\Model\FileReference */
+			$fileReference = $this->objectManager->get('TYPO3\\CMS\\Extbase\\Domain\\Model\\FileReference');
 
-		return $fileReferenceModel;
+		} else {
+			$fileReference = $this->persistenceManager->getObjectByIdentifier($resourcePointer, 'TYPO3\\CMS\\Extbase\\Domain\\Model\\FileReference', FALSE);
+		}
+
+		$fileReference->setOriginalResource($falFileReference);
+
+		return $fileReference;
 	}
 }

@@ -30,13 +30,16 @@ use TYPO3\CMS\Core\Resource\File as FalFile;
 use TYPO3\CMS\Core\Resource\FileReference as FalFileReference;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\PathUtility;
+use TYPO3\CMS\Extbase\Error\Error;
 use TYPO3\CMS\Extbase\Property\Exception\TypeConverterException;
 use TYPO3\CMS\Extbase\Property\PropertyMappingConfigurationInterface;
+use TYPO3\CMS\Extbase\Property\TypeConverter\AbstractTypeConverter;
+use TYPO3\Flow\Utility\Files;
 
 /**
  * Class UploadedFileReferenceConverter
  */
-class UploadedFileReferenceConverter extends \TYPO3\CMS\Extbase\Property\TypeConverter\AbstractTypeConverter {
+class UploadedFileReferenceConverter extends AbstractTypeConverter {
 
 	/**
 	 * Folder where the file upload should go to (including storage).
@@ -142,9 +145,9 @@ class UploadedFileReferenceConverter extends \TYPO3\CMS\Extbase\Property\TypeCon
 				case \UPLOAD_ERR_INI_SIZE:
 				case \UPLOAD_ERR_FORM_SIZE:
 				case \UPLOAD_ERR_PARTIAL:
-					return new \TYPO3\CMS\Extbase\Error\Error(\TYPO3\Flow\Utility\Files::getUploadErrorMessage($source['error']), 1264440823);
+					return new Error(Files::getUploadErrorMessage($source['error']), 1264440823);
 				default:
-					return new \TYPO3\CMS\Extbase\Error\Error('An error occurred while uploading. Please try again or contact the administrator if the problem remains', 1340193849);
+					return new Error('An error occurred while uploading. Please try again or contact the administrator if the problem remains', 1340193849);
 			}
 		}
 
@@ -155,7 +158,7 @@ class UploadedFileReferenceConverter extends \TYPO3\CMS\Extbase\Property\TypeCon
 		try {
 			$resource = $this->importUploadedResource($source, $configuration);
 		} catch (\Exception $e) {
-			return new \TYPO3\CMS\Extbase\Error\Error($e->getMessage(), $e->getCode());
+			return new Error($e->getMessage(), $e->getCode());
 		}
 
 		$this->convertedResources[$source['tmp_name']] = $resource;

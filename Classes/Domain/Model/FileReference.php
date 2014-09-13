@@ -24,6 +24,7 @@ namespace Helhum\UploadExample\Domain\Model;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+use TYPO3\CMS\Core\Resource\ResourceFactory;
 
 /**
  * Class FileReference
@@ -38,10 +39,47 @@ class FileReference extends \TYPO3\CMS\Extbase\Domain\Model\FileReference {
 	protected $originalFileIdentifier;
 
 	/**
+	 * @var string
+	 */
+	protected $title;
+
+	/**
+	 * @var \TYPO3\CMS\Core\Resource\FileReference
+	 */
+	protected $originalResource;
+
+	/**
 	 * @param \TYPO3\CMS\Core\Resource\FileReference $originalResource
 	 */
-	public function setOriginalResource(\TYPO3\CMS\Core\Resource\FileReference $originalResource) {
+	public function setOriginalResource($originalResource) {
 		$this->originalResource = $originalResource;
-		$this->originalFileIdentifier = (int)$originalResource->getOriginalFile()->getUid();
+		if ($originalResource !== NULL) {
+			$this->originalFileIdentifier = (int)$originalResource->getOriginalFile()->getUid();
+		}
+	}
+
+	/**
+	 * @return null|\TYPO3\CMS\Core\Resource\FileReference
+	 */
+	public function getOriginalResource() {
+		if ($this->originalResource === NULL && $this->getUid() !== NULL) {
+			$this->originalResource = ResourceFactory::getInstance()->getFileReferenceObject($this->getUid());
+		}
+
+		return $this->originalResource;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getTitle() {
+		return $this->title;
+	}
+
+	/**
+	 * @param string $title
+	 */
+	public function setTitle($title) {
+		$this->title = $title;
 	}
 }

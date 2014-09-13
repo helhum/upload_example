@@ -27,6 +27,8 @@ namespace Helhum\UploadExample\Property\TypeConverter;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use TYPO3\CMS\Extbase\Property\PropertyMappingConfigurationInterface;
+
 /**
  * Class ObjectStorageConverter
  */
@@ -40,38 +42,26 @@ class ObjectStorageConverter extends \TYPO3\CMS\Extbase\Property\TypeConverter\O
 	protected $priority = 2;
 
 	/**
-	 * Returns the source, if it is an array, otherwise an empty array.
-	 * Filter out empty uploads
+	 * Actually convert from $source to $targetType, taking into account the fully
+	 * built $convertedChildProperties and $configuration.
 	 *
-	 * @param mixed $source
-	 * @return array
+	 * @param string|integer $source
+	 * @param string $targetType
+	 * @param array $convertedChildProperties
+	 * @param \TYPO3\CMS\Extbase\Property\PropertyMappingConfigurationInterface $configuration
+	 * @throws \TYPO3\CMS\Extbase\Property\Exception
+	 * @return \TYPO3\CMS\Extbase\Domain\Model\AbstractFileFolder
 	 * @api
 	 */
-	public function getSourceChildPropertiesToBeConverted($source) {
-		$propertiesToConvert = array();
-
-		// TODO: Find a nicer way to throw away empty uploads
-		foreach ($source as $propertyName => $propertyValue) {
-			if ($this->isUploadType($propertyValue)) {
-				if ($propertyValue['error'] !== \UPLOAD_ERR_NO_FILE || isset($propertyValue['submittedFile']['resourcePointer'])) {
-					$propertiesToConvert[$propertyName] = $propertyValue;
-				}
-			} else {
-				$propertiesToConvert[$propertyName] = $propertyValue;
+	public function convertFrom($source, $targetType, array $convertedChildProperties = array(), PropertyMappingConfigurationInterface $configuration = NULL) {
+		$cleanedConvertedProperties = array();
+		foreach ($convertedChildProperties as $key => $value) {
+			if ($value !== NULL) {
+				$cleanedConvertedProperties[$key] = $value;
 			}
 		}
 
-		return $propertiesToConvert;
-	}
-
-	/**
-	 * Check if this is an upload type
-	 *
-	 * @param mixed $propertyValue
-	 * @return bool
-	 */
-	protected function isUploadType($propertyValue) {
-		return is_array($propertyValue) && isset($propertyValue['tmp_name']) && isset($propertyValue['error']);
+		return parent::convertFrom($source, $targetType, $cleanedConvertedProperties, $configuration);
 	}
 
 }

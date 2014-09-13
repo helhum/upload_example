@@ -45,14 +45,14 @@ class Example extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	/**
 	 * Image
 	 *
-	 * @var \TYPO3\CMS\Extbase\Domain\Model\FileReference
+	 * @var \Helhum\UploadExample\Domain\Model\FileReference
 	 */
 	protected $image;
 
 	/**
 	 * Image
 	 *
-	 * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\TYPO3\CMS\Extbase\Domain\Model\FileReference>
+	 * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\Helhum\UploadExample\Domain\Model\FileReference>
 	 */
 	protected $imageCollection;
 

@@ -60,10 +60,10 @@ class UploadViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\Form\UploadViewHelpe
 				$resourcePointerIdAttribute = ' id="' . htmlspecialchars($this->arguments['id']) . '-file-reference"';
 			}
 			$resourcePointerValue = $resource->getUid();
-			if ($resourcePointerValue === NULL) {
+			if (empty($resourcePointerValue)) {
 				// Newly created file reference which is not persisted yet.
 				// Use the file UID instead, but prefix it with "file:" to communicate this to the type converter
-				$resourcePointerValue = 'file:' . $resource->getOriginalResource()->getOriginalFile()->getUid();
+				$resourcePointerValue = 'file:' . $resource->getOriginalFile()->getUid();
 			}
 			$output .= '<input type="hidden" name="' . $this->getName() . '[submittedFile][resourcePointer]" value="' . htmlspecialchars($this->hashService->appendHmac((string)$resourcePointerValue)) . '"' . $resourcePointerIdAttribute . ' />';
 
@@ -81,7 +81,7 @@ class UploadViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\Form\UploadViewHelpe
 	 * Returns a previously uploaded resource.
 	 * If errors occurred during property mapping for this property, NULL is returned
 	 *
-	 * @return \TYPO3\CMS\Extbase\Domain\Model\FileReference
+	 * @return \TYPO3\CMS\Core\Resource\FileReference
 	 */
 	protected function getUploadedResource() {
 		if ($this->getMappingResultsForProperty()->hasErrors()) {
@@ -91,8 +91,10 @@ class UploadViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\Form\UploadViewHelpe
 		if ($resource instanceof \TYPO3\CMS\Extbase\Domain\Model\FileReference) {
 			return $resource;
 		}
-		return $this->propertyMapper->convert($resource, 'TYPO3\\CMS\\Extbase\\Domain\\Model\\FileReference');
+		if ($resource === NULL) {
+			return NULL;
+		}
+
+		return $this->propertyMapper->convert($resource, 'TYPO3\\CMS\\Core\\Resource\\FileReference');
 	}
-
-
-} 
+}

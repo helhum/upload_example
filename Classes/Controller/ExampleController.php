@@ -24,7 +24,8 @@ namespace Helhum\UploadExample\Controller;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
-use Helhum\UploadExample\Property\TypeConverter\UploadedFileReferenceConverter;
+
+use Helhum\UploadExample\Property\TypeConverter\ResourceConverter;
 use TYPO3\CMS\Extbase\Property\PropertyMappingConfiguration;
 
 /**
@@ -152,19 +153,19 @@ class ExampleController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 	 */
 	protected function setTypeConverterConfigurationForImageUpload($argumentName) {
 		$uploadConfiguration = array(
-			UploadedFileReferenceConverter::CONFIGURATION_ALLOWED_FILE_EXTENSIONS => $GLOBALS['TYPO3_CONF_VARS']['GFX']['imagefile_ext'],
-			UploadedFileReferenceConverter::CONFIGURATION_UPLOAD_FOLDER => '1:/content/',
+			ResourceConverter::CONFIGURATION_ALLOWED_FILE_EXTENSIONS => $GLOBALS['TYPO3_CONF_VARS']['GFX']['imagefile_ext'],
+			ResourceConverter::CONFIGURATION_UPLOAD_FOLDER => '1:/content/',
 		);
 		/** @var PropertyMappingConfiguration $newExampleConfiguration */
 		$newExampleConfiguration = $this->arguments[$argumentName]->getPropertyMappingConfiguration();
-		$newExampleConfiguration->forProperty('image')
+		$newExampleConfiguration->forProperty('image.originalResource')
 			->setTypeConverterOptions(
-				'Helhum\\UploadExample\\Property\\TypeConverter\\UploadedFileReferenceConverter',
+				'Helhum\\UploadExample\\Property\\TypeConverter\\ResourceConverter',
 				$uploadConfiguration
 			);
-		$newExampleConfiguration->forProperty('imageCollection.0')
+		$newExampleConfiguration->forProperty('imageCollection.0.originalResource')
 			->setTypeConverterOptions(
-				'Helhum\\UploadExample\\Property\\TypeConverter\\UploadedFileReferenceConverter',
+				'Helhum\\UploadExample\\Property\\TypeConverter\\ResourceConverter',
 				$uploadConfiguration
 			);
 	}

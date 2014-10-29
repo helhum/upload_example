@@ -129,7 +129,7 @@ class UploadedFileReferenceConverter extends AbstractTypeConverter {
 					$resourcePointer = $this->hashService->validateAndStripHmac($source['submittedFile']['resourcePointer']);
 					if (strpos($resourcePointer, 'file:') === 0) {
 						$fileUid = substr($resourcePointer, 5);
-						return $this->createFileRefrenceFromFalFileObject($this->resourceFactory->getFileObject($fileUid));
+						return $this->createFileReferenceFromFalFileObject($this->resourceFactory->getFileObject($fileUid));
 					} else {
 						return $this->createFileReferenceFromFalFileReferenceObject($this->resourceFactory->getFileReferenceObject($resourcePointer), $resourcePointer);
 					}
@@ -198,7 +198,7 @@ class UploadedFileReferenceConverter extends AbstractTypeConverter {
 				? $this->hashService->validateAndStripHmac($uploadInfo['submittedFile']['resourcePointer'])
 				: NULL;
 
-		$fileReferenceModel = $this->createFileRefrenceFromFalFileObject($uploadedFile, $resourcePointer);
+		$fileReferenceModel = $this->createFileReferenceFromFalFileObject($uploadedFile, $resourcePointer);
 
 		return $fileReferenceModel;
 	}
@@ -208,7 +208,7 @@ class UploadedFileReferenceConverter extends AbstractTypeConverter {
 	 * @param int $resourcePointer
 	 * @return \Helhum\UploadExample\Domain\Model\FileReference
 	 */
-	protected function createFileRefrenceFromFalFileObject(FalFile $file, $resourcePointer = NULL) {
+	protected function createFileReferenceFromFalFileObject(FalFile $file, $resourcePointer = NULL) {
 		$fileReference = $this->resourceFactory->createFileReferenceObject(
 			array(
 				'uid_local' => $file->getUid(),

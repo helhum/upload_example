@@ -183,7 +183,7 @@ class UploadedFileReferenceConverter extends AbstractTypeConverter {
 
 		if ($allowedFileExtensions !== NULL) {
 			$filePathInfo = PathUtility::pathinfo($uploadInfo['name']);
-			if (!GeneralUtility::inList($allowedFileExtensions, $filePathInfo['extension'])) {
+			if (!GeneralUtility::inList($allowedFileExtensions, strtolower($filePathInfo['extension']))) {
 				throw new TypeConverterException('File extension is not allowed!', 1399312430);
 			}
 		}

@@ -52,8 +52,8 @@ class UploadedFileReferenceConverter extends AbstractTypeConverter {
 	const CONFIGURATION_UPLOAD_CONFLICT_MODE = 2;
 
 	/**
-	 * Wheter to replace an already present resource.
-	 * Useful "for maxitems = 1" fields / propeties
+	 * Whether to replace an already present resource.
+	 * Useful for "maxitems = 1" fields and properties
 	 * with no ObjectStorage annotation.
 	 */
 	const CONFIGURATION_ALLOWED_FILE_EXTENSIONS = 4;
@@ -81,7 +81,7 @@ class UploadedFileReferenceConverter extends AbstractTypeConverter {
 	protected $targetType = 'TYPO3\\CMS\\Extbase\\Domain\\Model\\FileReference';
 
 	/**
-	 * Needs to take precedence over the available FileReferenceConverter
+	 * Take precedence over the available FileReferenceConverter
 	 *
 	 * @var integer
 	 */
@@ -134,7 +134,7 @@ class UploadedFileReferenceConverter extends AbstractTypeConverter {
 						return $this->createFileReferenceFromFalFileReferenceObject($this->resourceFactory->getFileReferenceObject($resourcePointer), $resourcePointer);
 					}
 				} catch(\InvalidArgumentException $e) {
-					// Nothing to do, no file uploaded and resource pointer was invalid. Discard!
+					// Nothing to do. No file is uploaded and resource pointer is invalid. Discard!
 				}
 			}
 			return NULL;
@@ -166,7 +166,7 @@ class UploadedFileReferenceConverter extends AbstractTypeConverter {
 	}
 
 	/**
-	 * Imports a resource and respects configuration given for properties
+	 * Import a resource and respect configuration given for properties
 	 *
 	 * @param array $uploadInfo
 	 * @param PropertyMappingConfigurationInterface $configuration

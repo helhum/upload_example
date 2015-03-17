@@ -33,14 +33,14 @@ namespace Helhum\UploadExample\Property\TypeConverter;
 class ObjectStorageConverter extends \TYPO3\CMS\Extbase\Property\TypeConverter\ObjectStorageConverter {
 
 	/**
-	 * Needs to take precedence over the available ObjectStorageConverter
+	 * Take precedence over the available ObjectStorageConverter
 	 *
 	 * @var integer
 	 */
 	protected $priority = 2;
 
 	/**
-	 * Returns the source, if it is an array, otherwise an empty array.
+	 * Return the source, if it is an array, otherwise an empty array.
 	 * Filter out empty uploads
 	 *
 	 * @param mixed $source

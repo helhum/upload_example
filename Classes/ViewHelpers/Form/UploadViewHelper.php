@@ -45,7 +45,7 @@ class UploadViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\Form\UploadViewHelpe
 	protected $propertyMapper;
 
 	/**
-	 * Renders the upload field with possible resource pointer
+	 * Render the upload field including possible resource pointer
 	 *
 	 * @return string
 	 * @api
@@ -78,8 +78,8 @@ class UploadViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\Form\UploadViewHelpe
 
 
 	/**
-	 * Returns a previously uploaded resource.
-	 * If errors occurred during property mapping for this property, NULL is returned
+	 * Return a previously uploaded resource.
+	 * Return NULL if errors occurred during property mapping for this property.
 	 *
 	 * @return \TYPO3\CMS\Extbase\Domain\Model\FileReference
 	 */
@@ -95,4 +95,4 @@ class UploadViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\Form\UploadViewHelpe
 	}
 
 
-} 
+}

@@ -214,6 +214,7 @@ class UploadedFileReferenceConverter extends AbstractTypeConverter {
 				'uid_local' => $file->getUid(),
 				'uid_foreign' => uniqid('NEW_'),
 				'uid' => uniqid('NEW_'),
+				'crop' => NULL,
 			)
 		);
 		return $this->createFileReferenceFromFalFileReferenceObject($fileReference, $resourcePointer);

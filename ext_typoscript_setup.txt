@@ -1,5 +1,7 @@
 config.tx_extbase {
 	persistence {
+		# Enable this if you need the reference index to be updated
+		# updateReferenceIndex = 1
 		classes {
 			Helhum\UploadExample\Domain\Model\FileReference {
 				mapping {

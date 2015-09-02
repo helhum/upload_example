@@ -177,11 +177,11 @@ To make file upload secure the TypeConverter needs at least needs to care about 
 
 
 
-Usage
-=====
+Install
+=======
 
 1. Get from Github, install as extension
-2. Create folder ./fileadmin/contents
+2. Create folder ./fileadmin/content
 3. No extra TypoScript needs to be included
 4. Create a page, insert the plugin as a content element
 5. Start playing in the frontend.

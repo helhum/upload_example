@@ -34,7 +34,6 @@ use TYPO3\CMS\Extbase\Error\Error;
 use TYPO3\CMS\Extbase\Property\Exception\TypeConverterException;
 use TYPO3\CMS\Extbase\Property\PropertyMappingConfigurationInterface;
 use TYPO3\CMS\Extbase\Property\TypeConverter\AbstractTypeConverter;
-use TYPO3\Flow\Utility\Files;
 
 /**
  * Class UploadedFileReferenceConverter
@@ -145,7 +144,7 @@ class UploadedFileReferenceConverter extends AbstractTypeConverter {
 				case \UPLOAD_ERR_INI_SIZE:
 				case \UPLOAD_ERR_FORM_SIZE:
 				case \UPLOAD_ERR_PARTIAL:
-					return new Error(Files::getUploadErrorMessage($source['error']), 1264440823);
+					return new Error('Error Code: '.$source['error'], 1264440823);
 				default:
 					return new Error('An error occurred while uploading. Please try again or contact the administrator if the problem remains', 1340193849);
 			}

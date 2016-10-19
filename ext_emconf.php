@@ -10,33 +10,31 @@
  * "version" and "dependencies" must not be touched!
  ***************************************************************/
 
-$EM_CONF[$_EXTKEY] = array(
-	'title' => 'Example Extension',
-	'description' => 'Just examples for a Blog Post',
-	'category' => 'Example Extensions',
-	'author' => 'Helmut Hummel',
-	'author_email' => '',
-	'author_company' => '',
-	'shy' => '',
-	'priority' => '',
-	'module' => '',
-	'state' => 'alpha',
-	'internal' => '',
-	'uploadfolder' => '0',
-	'createDirs' => '',
-	'modify_tables' => '',
-	'clearCacheOnLoad' => 0,
-	'lockType' => '',
-	'version' => '0.0.2',
-	'constraints' => array(
-		'depends' => array(
-			'typo3' => '6.2.4-7.6.99',
-		),
-		'conflicts' => array(
-		),
-		'suggests' => array(
-		),
-	),
-);
-
-?>
+$EM_CONF[$_EXTKEY] = [
+    'title' => 'Example Extension',
+    'description' => 'Just examples for a Blog Post',
+    'category' => 'Example Extensions',
+    'author' => 'Helmut Hummel',
+    'author_email' => '',
+    'author_company' => '',
+    'shy' => '',
+    'priority' => '',
+    'module' => '',
+    'state' => 'alpha',
+    'internal' => '',
+    'uploadfolder' => '0',
+    'createDirs' => '',
+    'modify_tables' => '',
+    'clearCacheOnLoad' => 0,
+    'lockType' => '',
+    'version' => '0.0.2',
+    'constraints' => [
+        'depends' => [
+            'typo3' => '6.2.4-7.6.99',
+        ],
+        'conflicts' => [
+        ],
+        'suggests' => [
+        ],
+    ],
+];

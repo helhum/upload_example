@@ -33,141 +33,152 @@ use TYPO3\CMS\Extbase\Property\PropertyMappingConfiguration;
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  *
  */
-class ExampleController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController {
+class ExampleController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
+{
 
-	/**
-	 * exampleRepository
-	 *
-	 * @var \Helhum\UploadExample\Domain\Repository\ExampleRepository
-	 * @inject
-	 */
-	protected $exampleRepository;
+    /**
+     * exampleRepository
+     *
+     * @var \Helhum\UploadExample\Domain\Repository\ExampleRepository
+     * @inject
+     */
+    protected $exampleRepository;
 
-	/**
-	 * action hello
-	 *
-	 * @return string
-	 */
-	public function helloAction() {
-		return 'Hello World!';
-	}
+    /**
+     * action hello
+     *
+     * @return string
+     */
+    public function helloAction()
+    {
+        return 'Hello World!';
+    }
 
-	/**
-	 * Action greeting
-	 *
-	 * @param string $name
-	 * @return string
-	 */
-	public function greetingAction($name) {
-		$this->view->assign('name', $name);
-		$this->view->assign('layoutName', 'Funny');
-	}
+    /**
+     * Action greeting
+     *
+     * @param string $name
+     * @return string
+     */
+    public function greetingAction($name)
+    {
+        $this->view->assign('name', $name);
+        $this->view->assign('layoutName', 'Funny');
+    }
 
-	/**
-	 * Action list
-	 *
-	 * @return void
-	 */
-	public function listAction() {
-		$examples = $this->exampleRepository->findAll();
-		$this->view->assign('examples', $examples);
-	}
+    /**
+     * Action list
+     *
+     * @return void
+     */
+    public function listAction()
+    {
+        $examples = $this->exampleRepository->findAll();
+        $this->view->assign('examples', $examples);
+    }
 
-	/**
-	 * Action show
-	 *
-	 * @param \Helhum\UploadExample\Domain\Model\Example $example
-	 */
-	public function showAction(\Helhum\UploadExample\Domain\Model\Example $example) {
-		$this->view->assign('example', $example);
-	}
+    /**
+     * Action show
+     *
+     * @param \Helhum\UploadExample\Domain\Model\Example $example
+     */
+    public function showAction(\Helhum\UploadExample\Domain\Model\Example $example)
+    {
+        $this->view->assign('example', $example);
+    }
 
-	/**
-	 * Action show
-	 *
-	 * @param \Helhum\UploadExample\Domain\Model\Example $example
-	 */
-	public function editAction(\Helhum\UploadExample\Domain\Model\Example $example) {
-		$this->view->assign('example', $example);
-	}
+    /**
+     * Action show
+     *
+     * @param \Helhum\UploadExample\Domain\Model\Example $example
+     */
+    public function editAction(\Helhum\UploadExample\Domain\Model\Example $example)
+    {
+        $this->view->assign('example', $example);
+    }
 
-	/**
-	 * action new
-	 */
-	public function newAction() {
-		$newExample = new \Helhum\UploadExample\Domain\Model\Example();
-		$this->view->assign('newExample', $newExample);
-	}
+    /**
+     * action new
+     */
+    public function newAction()
+    {
+        $newExample = new \Helhum\UploadExample\Domain\Model\Example();
+        $this->view->assign('newExample', $newExample);
+    }
 
-	/**
-	 * Set TypeConverter option for image upload
-	 */
-	public function initializeCreateAction() {
-		$this->setTypeConverterConfigurationForImageUpload('newExample');
-	}
+    /**
+     * Set TypeConverter option for image upload
+     */
+    public function initializeCreateAction()
+    {
+        $this->setTypeConverterConfigurationForImageUpload('newExample');
+    }
 
-	/**
-	 * action create
-	 *
-	 * @param \Helhum\UploadExample\Domain\Model\Example $newExample
-	 */
-	public function createAction(\Helhum\UploadExample\Domain\Model\Example $newExample) {
-		$this->exampleRepository->add($newExample);
-		$this->addFlashMessage('Your new Example was created.');
-		$this->redirect('list');
-	}
+    /**
+     * action create
+     *
+     * @param \Helhum\UploadExample\Domain\Model\Example $newExample
+     */
+    public function createAction(\Helhum\UploadExample\Domain\Model\Example $newExample)
+    {
+        $this->exampleRepository->add($newExample);
+        $this->addFlashMessage('Your new Example was created.');
+        $this->redirect('list');
+    }
 
-	/**
-	 * Set TypeConverter option for image upload
-	 */
-	public function initializeUpdateAction() {
-		$this->setTypeConverterConfigurationForImageUpload('example');
-	}
+    /**
+     * Set TypeConverter option for image upload
+     */
+    public function initializeUpdateAction()
+    {
+        $this->setTypeConverterConfigurationForImageUpload('example');
+    }
 
-	/**
-	 * action Update
-	 *
-	 * @param \Helhum\UploadExample\Domain\Model\Example $example
-	 */
-	public function updateAction(\Helhum\UploadExample\Domain\Model\Example $example) {
-		$this->exampleRepository->update($example);
-		$this->addFlashMessage('Your new Example was updated.');
-		$this->redirect('list');
-	}
+    /**
+     * action Update
+     *
+     * @param \Helhum\UploadExample\Domain\Model\Example $example
+     */
+    public function updateAction(\Helhum\UploadExample\Domain\Model\Example $example)
+    {
+        $this->exampleRepository->update($example);
+        $this->addFlashMessage('Your new Example was updated.');
+        $this->redirect('list');
+    }
 
-	/**
-	 * action delete
-	 *
-	 * @param \Helhum\UploadExample\Domain\Model\Example $example
-	 * @ignoreValidation $example
-	 */
-	public function deleteAction(\Helhum\UploadExample\Domain\Model\Example $example) {
-		$this->exampleRepository->remove($example);
-		$this->addFlashMessage('Your new Example was removed.');
-		$this->redirect('list');
-	}
+    /**
+     * action delete
+     *
+     * @param \Helhum\UploadExample\Domain\Model\Example $example
+     * @ignoreValidation $example
+     */
+    public function deleteAction(\Helhum\UploadExample\Domain\Model\Example $example)
+    {
+        $this->exampleRepository->remove($example);
+        $this->addFlashMessage('Your new Example was removed.');
+        $this->redirect('list');
+    }
 
-	/**
-	 *
-	 */
-	protected function setTypeConverterConfigurationForImageUpload($argumentName) {
-		$uploadConfiguration = array(
-			UploadedFileReferenceConverter::CONFIGURATION_ALLOWED_FILE_EXTENSIONS => $GLOBALS['TYPO3_CONF_VARS']['GFX']['imagefile_ext'],
-			UploadedFileReferenceConverter::CONFIGURATION_UPLOAD_FOLDER => '1:/content/',
-		);
-		/** @var PropertyMappingConfiguration $newExampleConfiguration */
-		$newExampleConfiguration = $this->arguments[$argumentName]->getPropertyMappingConfiguration();
-		$newExampleConfiguration->forProperty('image')
-			->setTypeConverterOptions(
-				'Helhum\\UploadExample\\Property\\TypeConverter\\UploadedFileReferenceConverter',
-				$uploadConfiguration
-			);
-		$newExampleConfiguration->forProperty('imageCollection.0')
-			->setTypeConverterOptions(
-				'Helhum\\UploadExample\\Property\\TypeConverter\\UploadedFileReferenceConverter',
-				$uploadConfiguration
-			);
-	}
-
+    /**
+     *
+     */
+    protected function setTypeConverterConfigurationForImageUpload($argumentName)
+    {
+        $uploadConfiguration = [
+            UploadedFileReferenceConverter::CONFIGURATION_ALLOWED_FILE_EXTENSIONS => $GLOBALS['TYPO3_CONF_VARS']['GFX']['imagefile_ext'],
+            UploadedFileReferenceConverter::CONFIGURATION_UPLOAD_FOLDER => '1:/content/',
+        ];
+        /** @var PropertyMappingConfiguration $newExampleConfiguration */
+        $newExampleConfiguration = $this->arguments[$argumentName]->getPropertyMappingConfiguration();
+        $newExampleConfiguration->forProperty('image')
+            ->setTypeConverterOptions(
+                'Helhum\\UploadExample\\Property\\TypeConverter\\UploadedFileReferenceConverter',
+                $uploadConfiguration
+            );
+        $newExampleConfiguration->forProperty('imageCollection.0')
+            ->setTypeConverterOptions(
+                'Helhum\\UploadExample\\Property\\TypeConverter\\UploadedFileReferenceConverter',
+                $uploadConfiguration
+            );
+    }
 }
-?>

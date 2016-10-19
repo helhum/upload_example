@@ -31,6 +31,6 @@ namespace Helhum\UploadExample\Domain\Repository;
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  *
  */
-class ExampleRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
-
+class ExampleRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
+{
 }

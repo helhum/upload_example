@@ -32,7 +32,6 @@ namespace Helhum\UploadExample\ViewHelpers\Form;
  */
 class UploadViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\Form\UploadViewHelper
 {
-
     /**
      * @var \TYPO3\CMS\Extbase\Security\Cryptography\HashService
      * @inject
@@ -89,7 +88,12 @@ class UploadViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\Form\UploadViewHelpe
         if ($this->getMappingResultsForProperty()->hasErrors()) {
             return null;
         }
-        $resource = $this->getValue(false);
+        if (is_callable([$this, 'getValueAttribute'])) {
+            $resource = $this->getValueAttribute();
+        } else {
+            // @deprecated since 7.6 will be removed once 6.2 support is removed
+            $resource = $this->getValue(false);
+        }
         if ($resource instanceof \TYPO3\CMS\Extbase\Domain\Model\FileReference) {
             return $resource;
         }

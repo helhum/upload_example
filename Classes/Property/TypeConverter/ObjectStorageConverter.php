@@ -52,7 +52,7 @@ class ObjectStorageConverter extends \TYPO3\CMS\Extbase\Property\TypeConverter\O
      * @return array
      * @api
      */
-    public function getSourceChildPropertiesToBeConverted($source)
+    public function getSourceChildPropertiesToBeConverted($source): array
     {
         $propertiesToConvert = [];
         // TODO: Find a nicer way to throw away empty uploads
@@ -75,7 +75,7 @@ class ObjectStorageConverter extends \TYPO3\CMS\Extbase\Property\TypeConverter\O
      * @param mixed $propertyValue
      * @return bool
      */
-    protected function isUploadType($propertyValue)
+    protected function isUploadType($propertyValue): bool
     {
         return is_array($propertyValue) && isset($propertyValue['tmp_name']) && isset($propertyValue['error']);
     }

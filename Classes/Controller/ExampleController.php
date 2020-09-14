@@ -40,7 +40,7 @@ class ExampleController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
      * exampleRepository
      *
      * @var \Helhum\UploadExample\Domain\Repository\ExampleRepository
-     * @inject
+     * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $exampleRepository;
 
@@ -150,7 +150,7 @@ class ExampleController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
      * action delete
      *
      * @param \Helhum\UploadExample\Domain\Model\Example $example
-     * @ignoreValidation $example
+     * @TYPO3\CMS\Extbase\Annotation\IgnoreValidation("example")
      */
     public function deleteAction(\Helhum\UploadExample\Domain\Model\Example $example)
     {
@@ -164,6 +164,12 @@ class ExampleController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
      */
     protected function setTypeConverterConfigurationForImageUpload($argumentName)
     {
+        \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Extbase\Object\Container\Container::class)
+            ->registerImplementation(
+                \TYPO3\CMS\Extbase\Domain\Model\FileReference::class,
+                \Helhum\UploadExample\Domain\Model\FileReference::class
+            );
+
         $uploadConfiguration = [
             UploadedFileReferenceConverter::CONFIGURATION_ALLOWED_FILE_EXTENSIONS => $GLOBALS['TYPO3_CONF_VARS']['GFX']['imagefile_ext'],
             UploadedFileReferenceConverter::CONFIGURATION_UPLOAD_FOLDER => '1:/content/',
@@ -172,12 +178,12 @@ class ExampleController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
         $newExampleConfiguration = $this->arguments[$argumentName]->getPropertyMappingConfiguration();
         $newExampleConfiguration->forProperty('image')
             ->setTypeConverterOptions(
-                'Helhum\\UploadExample\\Property\\TypeConverter\\UploadedFileReferenceConverter',
+                UploadedFileReferenceConverter::class,
                 $uploadConfiguration
             );
         $newExampleConfiguration->forProperty('imageCollection.0')
             ->setTypeConverterOptions(
-                'Helhum\\UploadExample\\Property\\TypeConverter\\UploadedFileReferenceConverter',
+                UploadedFileReferenceConverter::class,
                 $uploadConfiguration
             );
     }

@@ -4,14 +4,14 @@ if (!defined('TYPO3_MODE')) {
 }
 
 \TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
-    'Helhum.' . $_EXTKEY,
+    'UploadExample',
     'Piexample',
     [
-        'Example' => 'list, show, new, create, edit, update, delete',
+        \Helhum\UploadExample\Controller\ExampleController::class => 'list, show, new, create, edit, update, delete',
     ],
     // non-cacheable actions
     [
-        'Example' => 'list, show, new, create, edit, update, delete',
+        \Helhum\UploadExample\Controller\ExampleController::class => 'list, show, new, create, edit, update, delete',
     ]
 );
 
